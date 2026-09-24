@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <model name="realistic_boulder">
+    <static>true</static>
+    <link name="link">
+      <collision name="col">
+        <geometry>
+          <cylinder>
+            <radius>0.72</radius>
+            <length>0.9</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="vis">
+        <geometry>
+          <mesh>
+            <uri>meshes/boulder.obj</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

@@ -1,0 +1,7 @@
+<class_libraries>
+  <library path="ugv_traversability_layer">
+    <class type="ugv_nav2::TraversabilityLayer" base_class_type="nav2_costmap_2d::Layer">
+      <description>Nav2 Costmap Layer plugin ingesting AI semantic terrain traversability grids for outdoor UGV navigation.</description>
+    </class>
+  </library>
+</class_libraries>

@@ -1,0 +1,4 @@
+newmtl BoulderMaterial
+Ka 0.8 0.8 0.8
+Kd 0.9 0.9 0.9
+map_Kd ../../../materials/textures/weathered_rock.png

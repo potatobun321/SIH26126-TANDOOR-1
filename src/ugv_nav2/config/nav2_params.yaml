@@ -1,0 +1,276 @@
+amcl:
+  ros__parameters:
+    use_sim_time: True
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: True
+    global_frame: map
+    robot_base_frame: base_footprint
+    odom_topic: /odom
+    bt_loop_duration: 10
+    default_server_timeout: 20
+    wait_for_service_timeout: 1000
+    action_server_result_timeout: 900.0
+    navigators: ["navigate_to_pose", "navigate_through_poses"]
+    navigate_to_pose:
+      plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
+    navigate_through_poses:
+      plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
+    error_code_names:
+      - compute_path_error_code
+      - follow_path_error_code
+
+controller_server:
+  ros__parameters:
+    use_sim_time: True
+    controller_frequency: 20.0
+    costmap_update_timeout: 0.30
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.5
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 4.0
+    progress_checker_plugins: ["progress_checker"]
+    goal_checker_plugins: ["general_goal_checker"]
+    controller_plugins: ["FollowPath"]
+    use_realtime_priority: false
+
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+      required_movement_radius: 0.08
+      movement_time_allowance: 18.0
+
+    general_goal_checker:
+      stateful: True
+      plugin: "nav2_controller::SimpleGoalChecker"
+      xy_goal_tolerance: 0.75
+      yaw_goal_tolerance: 1.57
+
+    FollowPath:
+      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
+      desired_linear_vel: 0.65
+      lookahead_dist: 0.80
+      min_lookahead_dist: 0.40
+      max_lookahead_dist: 1.20
+      lookahead_time: 1.0
+      rotate_to_heading_angular_vel: 0.60
+      transform_tolerance: 0.3
+      use_velocity_scaled_lookahead_dist: true
+      min_approach_linear_velocity: 0.10
+      approach_velocity_scaling_dist: 1.00
+      use_collision_detection: true
+      max_allowed_time_to_collision_up_to_fast_stop: 1.0
+      use_regulated_linear_velocity_scaling: true
+      use_cost_regulated_linear_velocity_scaling: false
+      regulated_linear_scaling_min_radius: 0.60
+      regulated_linear_scaling_min_speed: 0.15
+      use_rotate_to_heading: false
+      max_angular_accel: 3.2
+      max_robot_pose_search_dist: 10.0
+      allow_reversing: false
+
+smoother_server:
+  ros__parameters:
+    use_sim_time: True
+    smoother_plugins: ["simple_smoother"]
+    simple_smoother:
+      plugin: "nav2_smoother::SimpleSmoother"
+      tolerance: 1.0e-10
+      max_its: 1000
+      do_refinement: True
+
+planner_server:
+  ros__parameters:
+    expected_planner_frequency: 10.0
+    use_sim_time: True
+    planner_plugins: ["GridBased"]
+    GridBased:
+      plugin: "nav2_navfn_planner::NavfnPlanner"
+      tolerance: 1.0
+      use_astar: true
+      allow_unknown: true
+
+route_server:
+  ros__parameters:
+    use_sim_time: True
+    boundary_costmap_topic: /global_costmap/costmap_raw
+    costmap_topic: /global_costmap/costmap_raw
+    footprint_topic: /global_costmap/published_footprint
+    robot_base_frame: base_footprint
+    global_frame: map
+    operations: ["ReroutingService", "AdjustSpeedLimit"]
+    ReroutingService:
+      plugin: "nav2_route::ReroutingService"
+    AdjustSpeedLimit:
+      plugin: "nav2_route::AdjustSpeedLimit"
+    edge_cost_functions: ["DynamicEdgesScorer", "DistanceScorer"]
+    DynamicEdgesScorer:
+      plugin: "nav2_route::DynamicEdgesScorer"
+    DistanceScorer:
+      plugin: "nav2_route::DistanceScorer"
+
+behavior_server:
+  ros__parameters:
+    costmap_topic: local_costmap/costmap_raw
+    footprint_topic: local_costmap/published_footprint
+    cycle_frequency: 10.0
+    behavior_plugins: ["spin", "backup", "wait"]
+    spin:
+      plugin: "nav2_behaviors::Spin"
+      max_rotational_vel: 0.50
+      min_rotational_vel: 0.10
+      rotational_acc_lim: 1.5
+    backup:
+      plugin: "nav2_behaviors::BackUp"
+    wait:
+      plugin: "nav2_behaviors::Wait"
+    global_frame: map
+    robot_base_frame: base_footprint
+    transform_timeout: 0.1
+    use_sim_time: True
+
+waypoint_follower:
+  ros__parameters:
+    use_sim_time: True
+    loop_rate: 20
+    stop_on_failure: false
+    waypoint_task_executor_plugin: "wait_at_waypoint"
+    wait_at_waypoint:
+      plugin: "nav2_waypoint_follower::WaitAtWaypoint"
+      enabled: True
+      waypoint_pause_duration: 200
+
+velocity_smoother:
+  ros__parameters:
+    use_sim_time: True
+    smoothing_frequency: 20.0
+    scale_velocities: False
+    feedback: "OPEN_LOOP"
+    max_velocity: [0.8, 0.0, 1.5]
+    min_velocity: [0.0, 0.0, -1.5]
+    max_accel: [1.5, 0.0, 6.0]
+    max_decel: [-1.5, 0.0, -6.0]
+    odom_topic: "/odom"
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
+
+collision_monitor:
+  ros__parameters:
+    use_sim_time: True
+    base_frame_id: "base_footprint"
+    odom_frame_id: "odom"
+    cmd_vel_in_topic: "cmd_vel_smoothed"
+    cmd_vel_out_topic: "cmd_vel"
+    state_topic: "collision_monitor_state"
+    transform_tolerance: 0.2
+    source_timeout: 0.0
+    base_shift_correction: True
+    stop_pub_timeout: 2.0
+    polygons: []
+    observation_sources: []
+
+docking_server:
+  ros__parameters:
+    use_sim_time: True
+    controller_frequency: 20.0
+    initial_perception_timeout: 5.0
+    wait_charge_timeout: 5.0
+    dock_approach_timeout: 30.0
+    undock_linear_tolerance: 0.05
+    undock_angular_tolerance: 0.1
+    max_retries: 3
+    base_frame: "base_footprint"
+    fixed_frame: "odom"
+    dock_backwards: false
+    dock_prestaging_tolerance: 0.5
+    dock_plugins: []
+    controller:
+      k_phi: 3.0
+      k_delta: 2.0
+      v_linear_min: 0.15
+      v_linear_max: 0.15
+      use_collision_detection: false
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      update_frequency: 10.0
+      publish_frequency: 5.0
+      global_frame: odom
+      robot_base_frame: base_footprint
+      use_sim_time: True
+      rolling_window: true
+      width: 8
+      height: 8
+      resolution: 0.05
+      footprint: "[ [0.45, 0.42], [0.45, -0.42], [-0.45, -0.42], [-0.45, 0.42] ]"
+      plugins: ["traversability_layer", "inflation_layer"]
+      traversability_layer:
+        plugin: "ugv_nav2::TraversabilityLayer"
+        enabled: True
+        topic: /perception/traversability_grid
+        traversability_weight: 1.0
+        rolling: true   # LOCAL costmap: clear stale marks each frame → controller stays responsive
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: False
+        observation_sources: scan
+        scan:
+          topic: /scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 8.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 6.0
+          obstacle_min_range: 0.0
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 2.2
+        inflation_radius: 0.72
+      always_send_full_costmap: True
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      update_frequency: 5.0
+      publish_frequency: 2.0
+      global_frame: map
+      robot_base_frame: base_footprint
+      use_sim_time: True
+      rolling_window: false
+      track_unknown_space: false
+      width: 60
+      height: 60
+      origin_x: -10.0
+      origin_y: -30.0
+      resolution: 0.1
+      footprint: "[ [0.45, 0.42], [0.45, -0.42], [-0.45, -0.42], [-0.45, 0.42] ]"
+      plugins: ["traversability_layer", "inflation_layer"]
+      traversability_layer:
+        plugin: "ugv_nav2::TraversabilityLayer"
+        enabled: True
+        topic: /perception/traversability_grid
+        traversability_weight: 1.0
+        rolling: false  # GLOBAL costmap: accumulate all seen obstacles → planner avoids known hazards
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: False
+        observation_sources: scan
+        scan:
+          topic: /scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 15.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 12.0
+          obstacle_min_range: 0.0
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 2.2
+        inflation_radius: 0.72
+      always_send_full_costmap: True

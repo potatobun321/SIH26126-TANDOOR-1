@@ -1,0 +1,11 @@
+SIH26126 Detection Distance Calibration Benchmark Log
+Timestamp: 2026-09-12 05:12:27
+Sample Count: 80
+Mean Ground Truth Range: 4.4111 m
+Mean IPM Range: 4.0291 m
+IPM Mean Absolute Error (MAE): 0.4216 m (42.16 cm)
+IPM Median Absolute Error: 0.3106 m (31.06 cm)
+IPM 90th Percentile Error: 1.0440 m (104.40 cm)
+Uncalibrated Mean Error: 2.4772 m (247.72 cm)
+Distance Error Reduction: 82.98%
+Result: FAILED

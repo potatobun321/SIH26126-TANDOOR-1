@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-09-12T04:32:21.399670",
+  "target_x": 7.0,
+  "target_y": 0.0,
+  "success": true,
+  "final_x": 6.795483576780082,
+  "final_y": -0.2733608270708517,
+  "radial_error_m": 0.3413987538693259,
+  "traversal_time_sim_s": 16.22,
+  "traversal_time_wall_s": 16.677550792694092,
+  "min_clearance_surface_m": 0.8589276235342247,
+  "min_clearance_center_m": 1.5589276235342246,
+  "collision_detected": false,
+  "collision_events": 0,
+  "reactive_yield_count": 1,
+  "yield_time_total_s": 1.5199999999999996,
+  "telemetry_samples": 815
+}

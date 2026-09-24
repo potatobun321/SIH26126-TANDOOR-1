@@ -1,0 +1,35 @@
+# Configuration for ugv_perception terrain segmentation
+terrain_segmentation_node:
+  ros__parameters:
+    use_sim_time: True
+    image_topic: "/camera/image_raw"
+    overlay_topic: "/perception/segmentation_overlay"
+    traversability_grid_topic: "/perception/traversability_grid"
+    diagnostics_topic: "/perception/diagnostics"
+    
+    # Model inference settings
+    input_width: 320
+    input_height: 240
+    model_path: "models/checkpoints/terrain_segmenter.onnx"
+    confidence_threshold: 0.5
+    publish_traversability_grid: True
+    grid_resolution: 0.10     # meters per cell
+    grid_width: 80            # 8.0 meters
+    grid_height: 80           # 8.0 meters
+    
+    # Off-Road Traversability Cost Weights (0-254)
+    cost_trail: 0             # Drivable, highly preferred
+    cost_grass: 30            # Minor resistance, safe
+    cost_bush: 140            # Dense foliage, risky
+    cost_obstacle: 254        # Lethal obstacle (rock, tree, barrier)
+    cost_water_mud: 254       # Lethal negative hazard
+
+    # Uneven Terrain & Geometric Slope Analysis
+    depth_topic: "/camera/depth/image_raw"
+    imu_topic: "/imu"
+    enable_depth_slope: True
+    enable_attitude_compensation: True
+    max_traversable_slope_deg: 20.0   # Slopes above 20 deg incur moderate penalty
+    critical_slope_deg: 30.0          # Slopes above 30 deg incur high penalty (max cost 70)
+    max_roughness_m: 0.20             # Surface height variation threshold
+

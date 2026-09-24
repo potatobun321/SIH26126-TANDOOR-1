@@ -1,0 +1,6 @@
+wp_idx,name,status,duration,target_x,target_y,final_x,final_y,error_dist,path_length,min_boulder,min_tree,avg_fps,avg_latency_ms
+1,"WP1: South Flank (4.0, -1.8)",SUCCEEDED,10.82,4.0,-1.8,3.972,-1.459,0.342,4.04,1.836,4.064,16.9,30.67
+2,"WP2: North-East Outpost (7.5, 1.2)",SUCCEEDED,31.2,7.5,1.2,7.144,0.609,0.69,5.25,1.771,1.944,17.57,32.71
+3,"WP3: Deep Frontier (9.5, -0.5)",SUCCEEDED,9.94,9.5,-0.5,9.17,-0.566,0.337,2.56,2.171,1.551,18.64,31.91
+4,"WP4: North Ridge Rally (3.5, 2.0)",SUCCEEDED,22.2,3.5,2.0,3.836,1.966,0.338,6.64,1.73,1.78,18.96,32.69
+5,"WP5: Base Camp Home (0.0, 0.0)",SUCCEEDED,11.25,0.0,0.0,0.266,0.214,0.342,4.01,2.119,5.756,19.86,33.98

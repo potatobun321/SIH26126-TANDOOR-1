@@ -1,0 +1,54 @@
+# Off-Road Outdoor Terrain Taxonomy for SIH26126
+# Unified mapping between RUGD / RELLIS-3D annotations, visualization colors, and Nav2 cost weights.
+
+taxonomy_name: "rugd_rellis_outdoor_unified"
+num_classes: 6
+
+classes:
+  0:
+    name: "sky_background"
+    description: "Sky, distant horizon, or unclassified void"
+    traversability_cost: 0
+    is_drivable: false
+    ignore_in_costmap: true
+    color_rgb: [135, 206, 235]  # Sky Blue
+
+  1:
+    name: "trail_road"
+    description: "Packed dirt trails, gravel paths, asphalt roads"
+    traversability_cost: 0      # Highly preferred corridor
+    is_drivable: true
+    ignore_in_costmap: false
+    color_rgb: [180, 110, 50]   # Earth Brown
+
+  2:
+    name: "grass_soil"
+    description: "Low grass, flat soil, dried terrain"
+    traversability_cost: 30     # Drivable with slight resistance
+    is_drivable: true
+    ignore_in_costmap: false
+    color_rgb: [40, 180, 60]    # Vibrant Green
+
+  3:
+    name: "bush_vegetation"
+    description: "Tall grass, thick shrubs, brambles"
+    traversability_cost: 140    # High friction / risky
+    is_drivable: false
+    ignore_in_costmap: false
+    color_rgb: [220, 200, 30]   # Golden Yellow
+
+  4:
+    name: "rock_tree_obstacle"
+    description: "Boulders, tree trunks, concrete barriers, debris"
+    traversability_cost: 254    # Lethal physical collision obstacle
+    is_drivable: false
+    ignore_in_costmap: false
+    color_rgb: [230, 40, 40]    # Crimson Red
+
+  5:
+    name: "water_mud_hazard"
+    description: "Water puddles, deep mud pits, loose sand ditches"
+    traversability_cost: 254    # Lethal negative obstacle / terrain trap
+    is_drivable: false
+    ignore_in_costmap: false
+    color_rgb: [30, 100, 240]   # Deep Blue

@@ -1,0 +1,308 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="outdoor_terrain">
+    
+    <!-- Physics engine -->
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <!-- Essential Gazebo Plugins -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+
+    <!-- Sunlight & Atmosphere -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 30 0 0 0</pose>
+      <diffuse>0.9 0.85 0.8 1</diffuse>
+      <specular>0.3 0.3 0.3 1</specular>
+      <direction>-0.5 0.3 -0.9</direction>
+    </light>
+
+    <!-- Outdoor Ground Plane / Arid Scrub Terrain -->
+    <model name="outdoor_ground">
+      <static>true</static>
+      <link name="ground_link">
+        <collision name="ground_collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="ground_visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.6 0.55 0.45 1</ambient>
+            <diffuse>0.8 0.75 0.65 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+            <pbr>
+              <metal>
+                <albedo_map>materials/textures/arid_grass.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Indian Red Laterite Trail Corridor (Central Traversable Pathway) -->
+    <model name="laterite_trail">
+      <static>true</static>
+      <pose>12.0 0.0 0.001 0 0 0</pose>
+      <link name="trail_link">
+        <visual name="trail_visual">
+          <geometry>
+            <box>
+              <size>36.0 4.2 0.002</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.4 0.25 1</ambient>
+            <diffuse>0.85 0.5 0.3 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+            <pbr>
+              <metal>
+                <albedo_map>materials/textures/laterite_trail.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacle 1: Faceted Weathered Rock Boulder (blocking direct path at x=5, y=0.35) -->
+    <model name="boulder_obstacle">
+      <static>true</static>
+      <pose>5.0 0.35 0.0 0 0 0.4</pose>
+      <link name="boulder_link">
+        <collision name="boulder_col">
+          <geometry>
+            <cylinder>
+              <radius>0.50</radius>
+              <length>0.9</length>
+            </cylinder>
+          </geometry>
+          <pose>0 0 0.45 0 0 0</pose>
+        </collision>
+        <visual name="boulder_vis">
+          <geometry>
+            <mesh>
+              <uri>model://realistic_boulder/meshes/boulder.obj</uri>
+              <scale>0.75 0.75 0.75</scale>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacle 2: Textured Scrub Tree / Vegetative Hazard at x=8.5, y=-3.0 (moved south to clear south return corridor) -->
+    <model name="tree_obstacle">
+      <static>true</static>
+      <pose>8.5 -3.0 0.0 0 0 0</pose>
+      <link name="tree_link">
+        <collision name="tree_col">
+          <geometry>
+            <cylinder>
+              <radius>0.42</radius>
+              <length>3.2</length>
+            </cylinder>
+          </geometry>
+          <pose>0 0 1.6 0 0 0</pose>
+        </collision>
+        <visual name="tree_vis">
+          <geometry>
+            <mesh>
+              <uri>model://scrub_tree/meshes/tree.obj</uri>
+              <scale>1.0 1.0 1.0</scale>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacle 3: Natural Ditch Barrier at x=12, y=1.0 -->
+    <model name="barrier_obstacle">
+      <static>true</static>
+      <pose>12.0 1.0 0.3 0 0 0.2</pose>
+      <link name="barrier_link">
+        <collision name="barrier_col">
+          <geometry>
+            <box>
+              <size>1.0 2.5 0.6</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="barrier_vis">
+          <geometry>
+            <box>
+              <size>1.0 2.5 0.6</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.3 0.25 0.2 1</ambient>
+            <diffuse>0.45 0.35 0.25 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Natural Trail Visual Landmarks (Provide photometric features for Visual Odometry in outdoor terrain) -->
+    <model name="trail_marker_L1">
+      <static>true</static>
+      <pose>1.5 3.2 0.3 0 0 0.5</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 0.4 0.6</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.4 0.4 0.6</size></box></geometry>
+          <material><ambient>0.6 0.2 0.1 1</ambient><diffuse>0.8 0.3 0.15 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="trail_marker_L2">
+      <static>true</static>
+      <pose>3.8 3.4 0.35 0 0 -0.3</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.3</radius><length>0.7</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.3</radius><length>0.7</length></cylinder></geometry>
+          <material><ambient>0.2 0.4 0.2 1</ambient><diffuse>0.3 0.6 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="trail_marker_L3">
+      <static>true</static>
+      <pose>6.5 3.2 0.4 0 0 0.8</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.5 0.5 0.8</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.5 0.5 0.8</size></box></geometry>
+          <material><ambient>0.5 0.4 0.1 1</ambient><diffuse>0.7 0.6 0.2 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="trail_marker_R1">
+      <static>true</static>
+      <pose>1.5 -3.2 0.35 0 0 -0.5</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.4 0.4 0.7</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.4 0.4 0.7</size></box></geometry>
+          <material><ambient>0.3 0.3 0.5 1</ambient><diffuse>0.4 0.4 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="trail_marker_R2">
+      <static>true</static>
+      <pose>4.0 -3.4 0.3 0 0 0.2</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.35</radius><length>0.6</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.35</radius><length>0.6</length></cylinder></geometry>
+          <material><ambient>0.5 0.2 0.3 1</ambient><diffuse>0.7 0.3 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="trail_marker_R3">
+      <static>true</static>
+      <pose>6.8 -3.2 0.4 0 0 -0.6</pose>
+      <link name="link">
+        <collision name="col"><geometry><box><size>0.45 0.45 0.8</size></box></geometry></collision>
+        <visual name="vis">
+          <geometry><box><size>0.45 0.45 0.8</size></box></geometry>
+          <material><ambient>0.6 0.5 0.2 1</ambient><diffuse>0.8 0.7 0.3 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Trail Start & End Landmarks -->
+    <model name="trail_post_start">
+      <static>true</static>
+      <pose>-1.2 1.5 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.4 0.2 0.1 1</ambient><diffuse>0.6 0.3 0.15 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="trail_post_goal">
+      <static>true</static>
+      <pose>8.2 2.6 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="col"><geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="vis">
+          <geometry><cylinder><radius>0.15</radius><length>1.0</length></cylinder></geometry>
+          <material><ambient>0.1 0.4 0.5 1</ambient><diffuse>0.15 0.6 0.7 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Dynamic Moving Hazard (SIH Phase 5 Collision Avoidance) -->
+    <model name="dynamic_patrol_hazard">
+      <pose>3.4 1.2 0.4 0 0 0</pose>
+      <link name="hazard_link">
+        <inertial>
+          <mass>15.0</mass>
+          <inertia>
+            <ixx>0.5</ixx><iyy>0.5</iyy><izz>0.5</izz>
+          </inertia>
+        </inertial>
+        <collision name="col">
+          <geometry>
+            <cylinder><radius>0.35</radius><length>0.8</length></cylinder>
+          </geometry>
+        </collision>
+        <visual name="vis">
+          <geometry>
+            <cylinder><radius>0.35</radius><length>0.8</length></cylinder>
+          </geometry>
+          <material>
+            <ambient>0.9 0.15 0.1 1</ambient>
+            <diffuse>1.0 0.3 0.15 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+      <plugin filename="gz-sim-trajectory-follower-system" name="gz::sim::systems::TrajectoryFollower">
+        <link_name>hazard_link</link_name>
+        <loop>true</loop>
+        <waypoints>
+          <waypoint>
+            <time>0.0</time>
+            <pose>3.4 1.2 0.4 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>6.0</time>
+            <pose>3.4 2.6 0.4 0 0 0</pose>
+          </waypoint>
+          <waypoint>
+            <time>12.0</time>
+            <pose>3.4 1.2 0.4 0 0 0</pose>
+          </waypoint>
+        </waypoints>
+      </plugin>
+    </model>
+
+  </world>
+</sdf>

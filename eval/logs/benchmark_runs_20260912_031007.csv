@@ -1,0 +1,7 @@
+trial_id,leg,status,duration,target_x,target_y,final_x,final_y,error_dist,path_length,min_clearance,avg_fps,avg_latency_ms
+1,Outbound (A->B),SUCCEEDED,13.15,7.0,0.0,6.958,0.329,0.332,8.87,1.921,29.31,10.72
+1,Return (B->A),TIMED_OUT,60.01,0.0,0.0,6.991,-0.373,7.001,5.14,1.962,29.45,9.68
+2,Outbound (A->B),TIMED_OUT,60.01,7.0,0.0,7.001,-0.703,0.703,4.89,2.069,29.56,9.62
+2,Return (B->A),TIMED_OUT,60.01,0.0,0.0,6.991,-0.372,7.001,4.89,2.044,29.35,9.86
+3,Outbound (A->B),TIMED_OUT,60.01,7.0,0.0,7.001,-0.702,0.702,4.89,2.068,29.58,9.72
+3,Return (B->A),TIMED_OUT,60.01,0.0,0.0,6.991,-0.366,7.0,4.89,2.041,32.34,10.25
