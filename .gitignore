@@ -1,7 +1,8 @@
-# ROS 2 build artifacts
+# ROS 2 build & install artifacts
 build/
 install/
 log/
+*.log
 
 # Python artifacts
 __pycache__/
@@ -15,7 +16,10 @@ dist/
 .coverage
 htmlcov/
 
-# Editor & OS files
+# Editor, OS & Agent metadata
+.agents/
+AGENTS.md
+CHECKPOINT.md
 .vscode/
 .idea/
 *.swp
@@ -27,3 +31,6 @@ Thumbs.db
 # Scratch and temp files
 scratch/
 *.tmp
+eval/scratch/
+docs/presentation/
+

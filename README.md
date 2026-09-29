@@ -16,6 +16,28 @@
 
 ---
 
+## 📹 System Demonstration & Video Walkthrough
+
+<div align="center">
+
+<!-- DEMO VIDEO EMBED / THUMBNAIL PLACEHOLDER -->
+<a href="https://youtu.be/YOUR_YOUTUBE_VIDEO_ID" target="_blank">
+  <img src="eval/tactical_hud_sample.png" alt="Watch Live UGV Autonomous Navigation Demonstration" width="85%" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #38bdf8;" />
+</a>
+
+<br/>
+
+[![Watch on YouTube](https://img.shields.io/badge/YouTube-Watch_Full_Demonstration_(1080p_60FPS)-red?style=for-the-badge&logo=youtube)](https://youtu.be/YOUR_YOUTUBE_VIDEO_ID)
+[![Live Web Console](https://img.shields.io/badge/Web_Console-http%3A%2F%2Flocalhost%3A8080-blue?style=for-the-badge&logo=googlechrome)](http://localhost:8080)
+
+*Autonomous UGV executing GPS-denied navigation, Calibrated IPM perception, and 7-leg multi-hazard obstacle avoidance.*
+
+> 💡 **Video Quick Link:** *Click the preview banner above to view the end-to-end mission recording (Point A $\to$ B laterite trail traversal, dynamic hazard yielding, 7-waypoint serpentine slalom, and live optical HUD telemetry).*
+
+</div>
+
+---
+
 ## 📌 Executive Summary
 
 Operating Unmanned Ground Vehicles (UGVs) in **GPS-denied tactical environments** (dense forest canopies, electronic warfare jamming zones, deep canyons, and disaster corridors) requires complete reliance on onboard vision and inertial sensing. 
@@ -113,14 +135,13 @@ Addressing **SIH26126**, this repository delivers an evidence-backed, fully inte
 ## 🗂️ Repository Layout
 
 ```text
-sih2026/
-├── README.md                           # Master project landing page and quickstart
-├── CHECKPOINT.md                       # Comprehensive milestone matrix and KPIs
-├── INSTRUCTIONS.md                     # Complete execution and testing manual
-├── AGENTS.md                           # Technical architecture and AI-agent governance
-├── run_demo.bat                        # One-click Windows/WSL2 simulation launch script
+SIH2026-26126-PROTOTYPE/
+├── LICENSE                             # Apache 2.0 Open Source License
+├── README.md                           # Master project landing page, video & benchmarks
+├── INSTRUCTIONS.md                     # Verification manual & testing guide
+├── run_demo.bat                        # One-click Windows/WSL2 simulation launcher
 ├── stop_demo.bat                       # Graceful multi-process teardown script
-├── launch_desktop_guis.bat             # Native desktop GUI launcher
+├── launch_desktop_guis.bat             # Native desktop GUI launcher (RViz2 & Gazebo)
 │
 ├── sim/                                # Gazebo Harmonic Simulation Environment
 │   ├── worlds/outdoor_terrain.sdf      # Dual-textured PBR world (Laterite trail + Arid grass)
@@ -142,18 +163,21 @@ sih2026/
 ├── docs/                               # Comprehensive Engineering Documentation
 │   ├── system_architecture.md          # ROS 2 data flow, topic contracts, and TF frames
 │   ├── HARDWARE_DEPLOYMENT_SPEC.md     # Itemized ₹1.74L BOM, wiring, and power budgets
-│   ├── LIVE_DEMONSTRATION_GUIDE.md     # Step-by-step judge demonstration script
+│   ├── LIVE_DEMONSTRATION_GUIDE.md     # Step-by-step demonstration walkthrough
 │   ├── PHASE1_ENGINEERING_REPORT.md    # Full engineering report and architectural analysis
 │   ├── decisions/                      # Architectural Decision Records (ADRs)
-│   └── research/                       # Research papers, PS deconstruction, datasets
+│   └── research/                       # Research foundations, PS deconstruction, datasets
 │
 ├── eval/                               # Empirical Benchmarking & Scientific Logs
-│   ├── test_tactical_hud.py            # Automated Tactical HUD verification harness
-│   ├── experiments.md                  # Master experiment register
-│   └── EXP-*.md                        # Detailed experimental records
+│   ├── experiments.md                  # Master experiment register (EXP-01 to EXP-08)
+│   ├── test_nav_ab.py                  # Automated Point A -> B verification harness
+│   └── test_uneven_terrain.py          # Geometric slope & attitude compensation tests
 │
-├── models/                             # Machine Learning Checkpoints
-│   └── checkpoints/terrain_segmenter.onnx # Edge-optimized MobileNetV3-Small FPN (0.29 MB)
+├── models/                             # Machine Learning Checkpoints & Training
+│   ├── checkpoints/terrain_segmenter.onnx # Edge-optimized MobileNetV3-Small FPN (0.29 MB)
+│   ├── train_terrain_segmenter.py      # Indian terrain domain training script
+│   ├── export_onnx.py                  # Model exporter & validator
+│   └── evaluate_miou.py                # mIoU evaluation benchmark
 │
 └── scripts/                            # Operational & Benchmarking Automation
     ├── web_mission_control.py          # Tactical Web Mission Control server (port 8080)
@@ -161,8 +185,9 @@ sih2026/
     ├── benchmark_dynamic_obstacle.py   # Dynamic obstacle clearance benchmarking
     ├── benchmark_detection_distance.py # Ground truth LaserScan vs IPM accuracy test
     ├── send_goal.sh                    # CLI waypoint dispatch utility
-    └── view_nav.sh                     # Native desktop RViz2 navigation profile
+    └── setup_ros2_jazzy.sh             # Automated environment installer
 ```
+
 
 ---
 
