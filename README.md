@@ -22,19 +22,19 @@
 
 <div align="center">
 
-<!-- DEMO VIDEO EMBED / THUMBNAIL PLACEHOLDER -->
-<a href="[https://youtu.be/YOUR_YOUTUBE_VIDEO_ID](https://youtu.be/zjqdksnUUc4)" target="_blank">
+<!-- DEMO VIDEO EMBED & LINK -->
+<a href="https://youtu.be/zjqdksnUUc4" target="_blank">
   <img src="eval/tactical_hud_sample.png" alt="Watch Live UGV Autonomous Navigation Demonstration" width="85%" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #38bdf8;" />
 </a>
 
 <br/>
 
-[![Watch on YouTube](https://img.shields.io/badge/YouTube-Watch_Full_Demonstration_(1080p_60FPS)-red?style=for-the-badge&logo=youtube)](https://youtu.be/YOUR_YOUTUBE_VIDEO_ID)
+[![Watch on YouTube](https://img.shields.io/badge/YouTube-Watch_Full_Demonstration_(1080p_60FPS)-red?style=for-the-badge&logo=youtube)](https://youtu.be/zjqdksnUUc4)
 [![Live Web Console](https://img.shields.io/badge/Web_Console-http%3A%2F%2Flocalhost%3A8080-blue?style=for-the-badge&logo=googlechrome)](http://localhost:8080)
 
 *Autonomous UGV executing GPS-denied navigation, Calibrated IPM perception, and 7-leg multi-hazard obstacle avoidance.*
 
-> 💡 **Video Quick Link:** *Click the preview banner above to view the end-to-end mission recording (Point A $\to$ B laterite trail traversal, dynamic hazard yielding, 7-waypoint serpentine slalom, and live optical HUD telemetry).*
+> 💡 **Video Quick Link:** *Click the preview banner above or the red YouTube badge to watch the full 1080p 60FPS video demonstration!*
 
 </div>
 
