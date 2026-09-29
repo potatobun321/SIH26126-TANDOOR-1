@@ -1,10 +1,12 @@
-# Vision-Based Autonomous Navigation for Outdoor UGV
+# TANDOOR-1: Vision-Based Autonomous Navigation for Outdoor UGV
+### **T**errain **A**utonomy & **N**avigation in **D**enied **O**utdoor **O**perational **R**anges
 
 <div align="center">
 
 [![SIH 2026](https://img.shields.io/badge/SIH-2026-blue.svg?style=for-the-badge&logo=target)](https://sih.gov.in)
 [![PS ID](https://img.shields.io/badge/Problem_Statement-SIH26126-orange.svg?style=for-the-badge)](https://sih.gov.in)
 [![Sponsor](https://img.shields.io/badge/Sponsor-Bharat_Electronics_Limited_(BEL)-darkgreen.svg?style=for-the-badge)](https://bel-india.in)
+[![Prototype](https://img.shields.io/badge/Prototype-TANDOOR--1-gold.svg?style=for-the-badge)](https://github.com/potatobun321/SIH2026-26126-PROTOTYPE)
 [![ROS 2](https://img.shields.io/badge/ROS_2-Jazzy_Jalisco-purple.svg?style=for-the-badge&logo=ros)](https://docs.ros.org/en/jazzy/)
 [![Simulator](https://img.shields.io/badge/Simulator-Gazebo_Harmonic-blue.svg?style=for-the-badge&logo=gazebo)](https://gazebosim.org)
 [![License](https://img.shields.io/badge/License-Apache_2.0-green.svg?style=for-the-badge)](LICENSE)
