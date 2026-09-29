@@ -23,7 +23,7 @@
 <div align="center">
 
 <!-- DEMO VIDEO EMBED / THUMBNAIL PLACEHOLDER -->
-<a href="https://youtu.be/YOUR_YOUTUBE_VIDEO_ID" target="_blank">
+<a href="[https://youtu.be/YOUR_YOUTUBE_VIDEO_ID](https://youtu.be/zjqdksnUUc4)" target="_blank">
   <img src="eval/tactical_hud_sample.png" alt="Watch Live UGV Autonomous Navigation Demonstration" width="85%" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid #38bdf8;" />
 </a>
 
