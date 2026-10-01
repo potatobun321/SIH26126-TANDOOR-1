@@ -18,7 +18,7 @@
 
 ---
 
-## 📹 System Demonstration & Video Walkthrough
+## System Demonstration & Video Walkthrough
 
 <div align="center">
 
@@ -30,17 +30,16 @@
 <br/>
 
 [![Watch on YouTube](https://img.shields.io/badge/YouTube-Watch_Full_Demonstration_(1080p_60FPS)-red?style=for-the-badge&logo=youtube)](https://youtu.be/zjqdksnUUc4)
-[![Live Web Console](https://img.shields.io/badge/Web_Console-http%3A%2F%2Flocalhost%3A8080-blue?style=for-the-badge&logo=googlechrome)](http://localhost:8080)
 
 *Autonomous UGV executing GPS-denied navigation, Calibrated IPM perception, and 7-leg multi-hazard obstacle avoidance.*
 
-> 💡 **Video Quick Link:** *Click the preview banner above or the red YouTube badge to watch the full 1080p 60FPS video demonstration!*
+> **Video Link:** Click the preview banner above or the YouTube badge to watch the full demonstration.
 
 </div>
 
 ---
 
-## 📌 Executive Summary
+## Executive Summary
 
 Operating Unmanned Ground Vehicles (UGVs) in **GPS-denied tactical environments** (dense forest canopies, electronic warfare jamming zones, deep canyons, and disaster corridors) requires complete reliance on onboard vision and inertial sensing. 
 
@@ -84,15 +83,15 @@ Addressing **SIH26126**, this repository delivers an evidence-backed, fully inte
                             [ACTUATION & TELEMETRY]
         • Actuation: /cmd_vel (4WD Skid-Steer)
         • Tactical Operator HUD: /perception/segmentation_overlay
-        • Web Mission Control: http://localhost:8080 (10 Hz Live Telemetry)
+        • Telemetry & Monitoring: RViz2 & ROS 2 Diagnostic Topics
 ```
 
 ---
 
-## 🌟 Key Innovations & Technical Differentiators
+## Key Innovations & Technical Differentiators
 
 ### 1. Indian Terrain Domain Adaptation (Rank 1 Differentiation)
-- Standard off-road models (trained exclusively on US-based RUGD/RELLIS-3D datasets) experience catastrophic accuracy degradation when deployed on Indian arid soil, red laterite trails, desert glare, and high dust conditions.
+- Standard off-road models (trained exclusively on US-based RUGD/RELLIS-3D datasets) experience severe accuracy degradation when deployed on Indian arid soil, red laterite trails, desert glare, and high dust conditions.
 - We implemented robust photometric normalization and color augmentation, cutting domain gap degradation from **$-18.4\%$ down to $-0.06\%$** ($\text{mIoU} = 74.45\%$).
 
 ### 2. Calibrated Inverse Perspective Mapping (IPM)
@@ -107,9 +106,9 @@ Addressing **SIH26126**, this repository delivers an evidence-backed, fully inte
 - Extended Kalman Filter (`robot_localization`) fusing 100 Hz 9-axis IMU angular velocities and 4WD wheel odometry.
 - Achieves **$1.8\text{ cm}$ ATE RMSE drift**, outperforming pure visual odometry under harsh solar glare and shadow transitions.
 
-### 5. Tactical Operator HUD & Web Mission Control
-- Real-time segmented video stream overlaid with military-grade HUD telemetry (heading, speed, terrain safety status, waypoint distance).
-- Zero-install web dashboard (`http://localhost:8080`) providing live telemetry cards, video streaming, and single-click waypoint dispatch.
+### 5. Tactical Operator HUD & Live Telemetry
+- Real-time segmented video stream overlaid with tactical HUD telemetry (heading, speed, terrain safety status, waypoint distance).
+- Native RViz2 monitoring displays real-time costmap heatmaps, global/local trajectories, and obstacle point clouds.
 
 ### 6. Edge Jetson Deployment & Indigenized ₹1.74L BOM
 - Production Docker container for NVIDIA Jetson Orin Nano / AGX Orin with FP16 TensorRT compilation running at **$691.9\text{ FPS}$**.
@@ -117,7 +116,7 @@ Addressing **SIH26126**, this repository delivers an evidence-backed, fully inte
 
 ---
 
-## 📊 Measured Performance vs Baseline
+## Measured Performance vs Baseline
 
 | Metric | Baseline / Standard | Tikka Techies (Achieved) | Improvement |
 |---|:---:|:---:|:---:|
@@ -134,7 +133,7 @@ Addressing **SIH26126**, this repository delivers an evidence-backed, fully inte
 
 ---
 
-## 🗂️ Repository Layout
+## Repository Layout
 
 ```text
 SIH2026-26126-PROTOTYPE/
@@ -182,7 +181,7 @@ SIH2026-26126-PROTOTYPE/
 │   └── evaluate_miou.py                # mIoU evaluation benchmark
 │
 └── scripts/                            # Operational & Benchmarking Automation
-    ├── web_mission_control.py          # Tactical Web Mission Control server (port 8080)
+    ├── web_mission_control.py          # Optional local telemetry streaming utility
     ├── serpentine_slalom_test.py       # 7-leg obstacle navigation challenge runner
     ├── benchmark_dynamic_obstacle.py   # Dynamic obstacle clearance benchmarking
     ├── benchmark_detection_distance.py # Ground truth LaserScan vs IPM accuracy test
@@ -190,17 +189,21 @@ SIH2026-26126-PROTOTYPE/
     └── setup_ros2_jazzy.sh             # Automated environment installer
 ```
 
-
 ---
 
-## 🚀 Quickstart & Reproduction Guide
+## Quickstart & Reproduction Guide
 
 ### Option A: One-Click Windows Demo Launch (Recommended)
 If running on Windows with WSL2 / Ubuntu 24.04:
 ```cmd
 run_demo.bat
 ```
-This automatically initializes Gazebo Harmonic, the ROS-Gz Bridge, the EKF Localization pipeline, Nav2 with Traversability Costmaps, the Tactical HUD Perception engine, and starts the Web Mission Control console at `http://localhost:8080`.
+This automatically initializes Gazebo Harmonic, the ROS-Gz Bridge, the EKF Localization pipeline, Nav2 with Traversability Costmaps, and the Tactical HUD Perception engine.
+
+To view the simulation and RViz2 desktop displays:
+```cmd
+launch_desktop_guis.bat
+```
 
 To cleanly terminate all processes:
 ```cmd
@@ -233,12 +236,11 @@ source install/setup.bash
 ros2 launch ugv_bringup sim_bringup.launch.py
 ```
 
-#### 4. Launch Web Mission Control
+#### 4. Launch RViz2 Visualization
 In a separate terminal:
 ```bash
-python3 scripts/web_mission_control.py
+rviz2 -d $(ros2 pkg prefix ugv_bringup)/share/ugv_bringup/rviz/nav2_default_view.rviz
 ```
-Open your browser and navigate to: **`http://localhost:8080`**
 
 #### 5. Send an Autonomous Navigation Waypoint
 Dispatch an autonomous navigation goal via CLI:
@@ -249,7 +251,7 @@ ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose \
 
 ---
 
-## 🧪 Scientific Benchmark Reproduction
+## Scientific Benchmark Reproduction
 
 Run the automated evaluation suite to reproduce empirical metrics:
 
@@ -269,7 +271,7 @@ python3 deploy/export_tensorrt.py
 
 ---
 
-## 🛠️ Hardware Specification & Indigenized BOM
+## Hardware Specification & Indigenized BOM
 
 | Component | Make / Model | Specification | Unit Price (INR) |
 |---|---|---|:---:|
@@ -287,18 +289,18 @@ python3 deploy/export_tensorrt.py
 
 ---
 
-## 📑 Key Documentation References
+## Key Documentation References
 
-- 📘 [System Architecture & Topic Contracts](docs/system_architecture.md)
-- 📗 [Hardware Deployment Specification & Power Budget](docs/HARDWARE_DEPLOYMENT_SPEC.md)
-- 📙 [Live Demonstration & Judge Presentation Guide](docs/LIVE_DEMONSTRATION_GUIDE.md)
-- 📕 [Phase 1 Engineering Report](docs/PHASE1_ENGINEERING_REPORT.md)
-- 📁 [Architectural Decision Records (ADRs)](docs/decisions/)
-- 🔬 [Research Foundations & Problem Statement Deconstruction](docs/research/)
+- [System Architecture & Topic Contracts](docs/system_architecture.md)
+- [Hardware Deployment Specification & Power Budget](docs/HARDWARE_DEPLOYMENT_SPEC.md)
+- [Live Demonstration & Judge Presentation Guide](docs/LIVE_DEMONSTRATION_GUIDE.md)
+- [Phase 1 Engineering Report](docs/PHASE1_ENGINEERING_REPORT.md)
+- [Architectural Decision Records (ADRs)](docs/decisions/)
+- [Research Foundations & Problem Statement Deconstruction](docs/research/)
 
 ---
 
-## 👥 Team Tikka Techies
+## Team Tikka Techies
 
 - **Institution:** Government Engineering College, Jaipur
 - **Hackathon:** Smart India Hackathon 2026
@@ -308,6 +310,6 @@ python3 deploy/export_tensorrt.py
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
